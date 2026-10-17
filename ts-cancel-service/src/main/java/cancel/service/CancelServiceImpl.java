@@ -253,7 +253,7 @@ public class CancelServiceImpl implements CancelService {
 
     public static HttpHeaders getAuthorizationHeadersFrom(HttpHeaders oldHeaders) {
         HttpHeaders newHeaders = new HttpHeaders();
-        if (oldHeaders.containsKey(HttpHeaders.AUTHORIZATION)) {
+        if (oldHeaders.containsHeader(HttpHeaders.AUTHORIZATION)) {
             newHeaders.add(HttpHeaders.AUTHORIZATION, oldHeaders.getFirst(HttpHeaders.AUTHORIZATION));
         }
         return newHeaders;

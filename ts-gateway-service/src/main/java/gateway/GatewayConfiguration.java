@@ -20,7 +20,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.reactive.result.view.ViewResolver;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.*;
 
 /**
@@ -91,8 +91,8 @@ public class GatewayConfiguration {
             map.put("code", 0);
             map.put("message", "接口被限流了");
             return ServerResponse.status(HttpStatus.OK).
-                    contentType(MediaType.APPLICATION_JSON_UTF8).
-                    body(BodyInserters.fromObject(map));
+                    contentType(MediaType.APPLICATION_JSON).
+                    body(BodyInserters.fromValue(map));
         };
         GatewayCallbackManager.setBlockHandler(blockRequestHandler);
     }

@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     private Response createDefaultAuthUser(AuthDto dto) {
         LOGGER.info("[createDefaultAuthUser][CALL TO AUTH][AuthDto: {}]", dto.toString());
         HttpHeaders headers = new HttpHeaders();
-        HttpEntity<AuthDto> entity = new HttpEntity<>(dto, null);
+        HttpEntity<AuthDto> entity = new HttpEntity<>(dto, (HttpHeaders) null);
         String auth_service_url = getServiceUrl("ts-auth-service");
 
         List<ServiceInstance> auth_svcs = discoveryClient.getInstances("ts-auth-service");

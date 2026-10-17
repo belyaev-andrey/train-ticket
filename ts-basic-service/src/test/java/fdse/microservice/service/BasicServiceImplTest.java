@@ -3,11 +3,9 @@ package fdse.microservice.service;
 import edu.fudan.common.entity.*;
 import edu.fudan.common.util.Response;
 import edu.fudan.common.util.StringUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -18,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Date;
 import java.util.UUID;
 
-@RunWith(JUnit4.class)
 public class BasicServiceImplTest {
 
     @InjectMocks
@@ -30,9 +27,9 @@ public class BasicServiceImplTest {
     private HttpHeaders headers = new HttpHeaders();
     private HttpEntity requestEntity = new HttpEntity(headers);
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -83,7 +80,7 @@ public class BasicServiceImplTest {
                 Response.class)).thenReturn(re2);
 
         Response result = basicServiceImpl.queryForTravel(info, headers);
-        Assert.assertEquals("Train type doesn't exist", result.getMsg());
+        Assertions.assertEquals("Train type doesn't exist", result.getMsg());
     }
 
     @Test
@@ -96,7 +93,7 @@ public class BasicServiceImplTest {
                 requestEntity,
                 Response.class)).thenReturn(re);
         Response result = basicServiceImpl.queryForStationId("stationName", headers);
-        Assert.assertEquals(new Response<>(1, null, null), result);
+        Assertions.assertEquals(new Response<>(1, null, null), result);
     }
 
     @Test
@@ -109,7 +106,7 @@ public class BasicServiceImplTest {
                 requestEntity,
                 Response.class)).thenReturn(re);
         Boolean result = basicServiceImpl.checkStationExists("stationName", headers);
-        Assert.assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -122,7 +119,7 @@ public class BasicServiceImplTest {
                 requestEntity,
                 Response.class)).thenReturn(re);
         TrainType result = basicServiceImpl.queryTrainTypeByName("trainTypeId", headers);
-        Assert.assertNull(result);
+        Assertions.assertNull(result);
     }
 
 }

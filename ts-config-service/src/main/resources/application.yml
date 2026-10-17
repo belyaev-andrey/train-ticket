@@ -1,4 +1,7 @@
 spring:
+  # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
+  jackson:
+    use-jackson2-defaults: true
   cloud:
     nacos:
       discovery:
@@ -6,7 +9,7 @@ spring:
   application:
     name: ts-config-service
   datasource:
-    url: jdbc:mysql://${CONFIG_MYSQL_HOST:ts-config-mysql}:${CONFIG_MYSQL_PORT:3306}/${CONFIG_MYSQL_DATABASE:ts-config-mysql}?useSSL=false
+    url: jdbc:mysql://${CONFIG_MYSQL_HOST:ts-config-mysql}:${CONFIG_MYSQL_PORT:3306}/${CONFIG_MYSQL_DATABASE:ts-config-mysql}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${CONFIG_MYSQL_USER:root}
     password: ${CONFIG_MYSQL_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,7 +18,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
 
 
 # HTTP Server

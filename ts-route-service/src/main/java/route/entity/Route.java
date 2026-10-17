@@ -1,13 +1,11 @@
 package route.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +16,6 @@ import java.util.UUID;
 @Data
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 public class Route {
 
     @Id

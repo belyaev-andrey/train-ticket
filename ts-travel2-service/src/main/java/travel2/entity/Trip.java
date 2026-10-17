@@ -1,13 +1,13 @@
 package travel2.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import edu.fudan.common.entity.TripId;
 import edu.fudan.common.util.StringUtils;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -16,12 +16,11 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "trip2")
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 public class
 Trip {
     @Valid
     @Id
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid
     @Column(length = 36)
     private String id;
 

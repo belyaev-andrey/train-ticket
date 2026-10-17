@@ -1,12 +1,12 @@
 package contacts.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -16,14 +16,13 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(indexes = {@Index(name = "account_document_idx", columnList = "account_id, document_number, document_type", unique = true)})
 public class Contacts {
 
     @Id
 //    private UUID id;
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid
     @Column(length = 36)
     private String id;
     @Column(name = "account_id")

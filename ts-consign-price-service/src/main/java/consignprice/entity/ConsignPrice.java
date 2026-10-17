@@ -1,10 +1,10 @@
 package consignprice.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
@@ -14,11 +14,10 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 @Table(name="consign_price")
 public class ConsignPrice {
     @Id
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid
     @Column(length = 36)
     private String id;
     @Column(name = "idx",unique = true)

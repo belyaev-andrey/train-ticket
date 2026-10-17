@@ -35,7 +35,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
     @Override
     public Response getAllRoutes(HttpHeaders headers) {
 
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String route_service_url = getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                  route_service_url + "/api/v1/routeservice/routes",
@@ -43,7 +43,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 requestEntity,
                 Response.class);
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
-            logger.error("[getAllRoutes][receive response][Get routes error][response code: {}]", re.getStatusCodeValue());
+            logger.error("[getAllRoutes][receive response][Get routes error][response code: {}]", re.getStatusCode().value());
         }
         return re.getBody();
 
@@ -65,7 +65,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
             return response;
         }
 
-        HttpEntity requestEntity = new HttpEntity(request, null);
+        HttpEntity requestEntity = new HttpEntity(request, (HttpHeaders) null);
         String route_service_url = getServiceUrl("ts-route-service");
         ResponseEntity<Response<Route>> re = restTemplate.exchange(
                 route_service_url + "/api/v1/routeservice/routes",
@@ -74,7 +74,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 new ParameterizedTypeReference<Response<Route>>() {
                 });
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
-            logger.error("[createAndModifyRoute][receive response][Get status error][response code: {}]", re.getStatusCodeValue());
+            logger.error("[createAndModifyRoute][receive response][Get status error][response code: {}]", re.getStatusCode().value());
         }
         return re.getBody();
     }
@@ -82,7 +82,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
     @Override
     public Response deleteRoute(String routeId, HttpHeaders headers) {
 
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String route_service_url = getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                 route_service_url + "/api/v1/routeservice/routes/" + routeId,
@@ -90,7 +90,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 requestEntity,
                 Response.class);
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
-            logger.error("[deleteRoute][response response][Delete error][response code: {}]", re.getStatusCodeValue());
+            logger.error("[deleteRoute][response response][Delete error][response code: {}]", re.getStatusCode().value());
         }
         return re.getBody();
 
@@ -98,7 +98,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
     public Response checkStationsExists(List<String> stationNames, HttpHeaders headers) {
         logger.info("[checkStationsExists][Check Stations Exists][stationNames: {}]", stationNames);
-        HttpEntity requestEntity = new HttpEntity(stationNames, null);
+        HttpEntity requestEntity = new HttpEntity(stationNames, (HttpHeaders) null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                 station_service_url + "/api/v1/stationservice/stations/idlist",

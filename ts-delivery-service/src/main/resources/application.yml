@@ -2,6 +2,9 @@ server:
   port: 18808
 
 spring:
+  # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
+  jackson:
+    use-jackson2-defaults: true
   cloud:
     nacos:
       discovery:
@@ -9,7 +12,7 @@ spring:
   application:
     name: ts-delivery-service
   datasource:
-    url: jdbc:mysql://${DELIVERY_MYSQL_HOST:ts-delivery-mysql}:${DELIVERY_MYSQL_PORT:3306}/${DELIVERY_MYSQL_DATABASE:ts-delivery-mysql}?useSSL=false
+    url: jdbc:mysql://${DELIVERY_MYSQL_HOST:ts-delivery-mysql}:${DELIVERY_MYSQL_PORT:3306}/${DELIVERY_MYSQL_DATABASE:ts-delivery-mysql}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${DELIVERY_MYSQL_USER:root}
     password: ${DELIVERY_MYSQL_PASSWORD:Abcd1234#}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -21,4 +24,4 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect

@@ -1,20 +1,22 @@
 package other.config;
 
+import jakarta.servlet.DispatcherType;
 import edu.fudan.common.security.jwt.JWTFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import static org.springframework.web.cors.CorsConfiguration.ALL;
 
@@ -23,8 +25,8 @@ import static org.springframework.web.cors.CorsConfiguration.ALL;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity
+public class SecurityConfig {
 
     String admin = "ADMIN";
     String orderOther = "/api/v1/orderOtherService/orderOther";
@@ -48,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
+        return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
@@ -62,29 +64,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.httpBasic().disable()
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .httpBasic(AbstractHttpConfigurer::disable)
                 // close default csrf
-                .csrf().disable()
+                .csrf(AbstractHttpConfigurer::disable)
                 // close session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/v1/orderOtherService/orderOther/**").permitAll()
-                .antMatchers(HttpMethod.POST, orderOther).hasAnyRole(admin, "USER")
-                .antMatchers(HttpMethod.PUT, orderOther).hasAnyRole(admin, "USER")
-                .antMatchers(HttpMethod.DELETE, orderOther).hasAnyRole(admin, "USER")
-                .antMatchers(HttpMethod.POST, "/api/v1/orderOtherService/orderOther/admin").hasAnyRole(admin)
-                .antMatchers(HttpMethod.PUT, "/api/v1/orderOtherService/orderOther/admin").hasAnyRole(admin)
-
-                .antMatchers("/swagger-ui.html", "/webjars/**", "/images/**",
-                        "/configuration/**", "/swagger-resources/**", "/v2/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        // let errors render; Spring Security 6+ also authorizes ERROR dispatches
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                        .requestMatchers("/api/v1/orderOtherService/orderOther/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, orderOther).hasAnyRole(admin, "USER")
+                        .requestMatchers(HttpMethod.PUT, orderOther).hasAnyRole(admin, "USER")
+                        .requestMatchers(HttpMethod.DELETE, orderOther).hasAnyRole(admin, "USER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/orderOtherService/orderOther/admin").hasAnyRole(admin)
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orderOtherService/orderOther/admin").hasAnyRole(admin)
+                        .requestMatchers("/swagger-ui.html", "/webjars/**", "/images/**",
+                                "/configuration/**", "/swagger-resources/**", "/v2/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated())
                 .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // close cache
-        httpSecurity.headers().cacheControl();
+        httpSecurity.headers(headers -> headers.cacheControl(Customizer.withDefaults()));
+        return httpSecurity.build();
     }
 }

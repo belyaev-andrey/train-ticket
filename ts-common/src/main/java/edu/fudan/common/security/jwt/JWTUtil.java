@@ -2,6 +2,8 @@ package edu.fudan.common.security.jwt;
 
 import edu.fudan.common.exception.TokenException;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,9 +12,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +31,15 @@ public class JWTUtil {
     }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JWTUtil.class);
-    private static String secretKey = Base64.getEncoder().encodeToString("secret".getBytes());
+    /**
+     * HS256 needs a key of at least 256 bits. ts-auth-service signs tokens with the same key.
+     */
+    private static final SecretKey SIGNING_KEY =
+            Keys.hmacShaKeyFor("train-ticket-jwt-signing-key-change-me-0123456789".getBytes(StandardCharsets.UTF_8));
+
+    public static SecretKey signingKey() {
+        return SIGNING_KEY;
+    }
 
 
     public static Authentication getJWTAuthentication(ServletRequest request) {
@@ -78,12 +89,12 @@ public class JWTUtil {
     }
 
     private static String getUserName(String token) {
-        return getClaims(token).getBody().getSubject();
+        return getClaims(token).getPayload().getSubject();
     }
 
     private static List<String> getRole(String token) {
         Jws<Claims> claimsJws = getClaims(token);
-        return (List<String>) (claimsJws.getBody().get("roles", List.class));
+        return (List<String>) (claimsJws.getPayload().get("roles", List.class));
     }
 
     private static String getTokenFromHeader(HttpServletRequest request) {
@@ -97,7 +108,7 @@ public class JWTUtil {
     private static boolean validateToken(String token) {
         try {
             Jws<Claims> claimsJws = getClaims(token);
-            return !claimsJws.getBody().getExpiration().before(new Date());
+            return !claimsJws.getPayload().getExpiration().before(new Date());
         } catch (ExpiredJwtException e) {
             LOGGER.error("[validateToken][getClaims][Token expired][ExpiredJwtException: {} ]" , e);
             throw new TokenException("Token expired");
@@ -117,7 +128,7 @@ public class JWTUtil {
     }
 
     private static Jws<Claims> getClaims(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+        return Jwts.parser().verifyWith(SIGNING_KEY).build().parseSignedClaims(token);
     }
 
 }

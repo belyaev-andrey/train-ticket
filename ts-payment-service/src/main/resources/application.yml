@@ -3,6 +3,9 @@ server:
   port: 19001  # HTTP (Tomcat) port
 
 spring:
+  # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
+  jackson:
+    use-jackson2-defaults: true
   cloud:
     nacos:
       discovery:
@@ -21,7 +24,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
 
 swagger:
   controllerPackage: com.trainticket.controller

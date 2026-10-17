@@ -23,7 +23,7 @@ import travel2.entity.Travel;
 import travel2.entity.TripAllDetail;
 import travel2.repository.TripRepository;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.*;
 
 /**
@@ -259,7 +259,7 @@ public class TravelServiceImpl implements TravelService {
 
         TravelServiceImpl.LOGGER.info("[getTicketsByBatch][before get basic][trips: {}]", trips);
 
-        HttpEntity requestEntity = new HttpEntity(infos, null);
+        HttpEntity requestEntity = new HttpEntity(infos, (HttpHeaders) null);
         String basic_service_url = getServiceUrl("ts-basic-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                 basic_service_url + "/api/v1/basicservice/basic/travels",
@@ -307,7 +307,7 @@ public class TravelServiceImpl implements TravelService {
         query.setEndPlace(endPlaceName);
         query.setDepartureTime(departureTime);
 
-        HttpEntity requestEntity = new HttpEntity(query, null);
+        HttpEntity requestEntity = new HttpEntity(query, (HttpHeaders) null);
         String basic_service_url = getServiceUrl("ts-basic-service");
         ResponseEntity<Response<TravelResult>> re = restTemplate.exchange(
                 basic_service_url + "/api/v1/basicservice/basic/travel",
@@ -413,7 +413,7 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private TrainType getTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String train_service_url = getServiceUrl("ts-train-service");
         ResponseEntity<Response<TrainType>> re = restTemplate.exchange(
                 train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,
@@ -427,7 +427,7 @@ public class TravelServiceImpl implements TravelService {
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
         TravelServiceImpl.LOGGER.debug("[getRouteByRouteId][Get Route By Id][Route ID：{}]", routeId);
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String route_service_url = getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                 route_service_url + "/api/v1/routeservice/routes/" + routeId,
@@ -458,7 +458,7 @@ public class TravelServiceImpl implements TravelService {
 
         TravelServiceImpl.LOGGER.info("[getRestTicketNumber][Seat request][request: {}]", seatRequest.toString());
 
-        HttpEntity requestEntity = new HttpEntity(seatRequest, null);
+        HttpEntity requestEntity = new HttpEntity(seatRequest, (HttpHeaders) null);
         String seat_service_url = getServiceUrl("ts-seat-service");
         ResponseEntity<Response<Integer>> re = restTemplate.exchange(
                 seat_service_url + "/api/v1/seatservice/seats/left_tickets",

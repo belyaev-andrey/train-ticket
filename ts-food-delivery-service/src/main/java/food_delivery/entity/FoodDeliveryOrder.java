@@ -1,25 +1,24 @@
 package food_delivery.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import edu.fudan.common.entity.Food;
 
 @Data
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class FoodDeliveryOrder {
 
     @Id
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid(hex = true)
     @Column(length = 36)
     private String id;
 

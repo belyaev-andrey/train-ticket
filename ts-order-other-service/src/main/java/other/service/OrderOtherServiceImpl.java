@@ -222,7 +222,7 @@ public class OrderOtherServiceImpl implements OrderOtherService {
 
     public List<String> queryForStationId(List<String> ids, HttpHeaders headers) {
 
-        HttpEntity requestEntity = new HttpEntity(ids, null);
+        HttpEntity requestEntity = new HttpEntity(ids, (HttpHeaders) null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response<List<String>>> re = restTemplate.exchange(
                 station_service_url + "/api/v1/stationservice/stations/namelist",

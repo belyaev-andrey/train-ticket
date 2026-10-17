@@ -1,14 +1,14 @@
 package other.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import edu.fudan.common.entity.OrderStatus;
 import edu.fudan.common.entity.SeatClass;
 import edu.fudan.common.util.StringUtils;
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 
 /**
@@ -17,13 +17,12 @@ import java.util.Date;
 @Data
 @Table(name = "orders_other")
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Order {
     @Id
     @Column(length = 36)
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid
     private String id;
 
     private String boughtDate;

@@ -53,9 +53,9 @@ public class SeatServiceImpl implements SeatService {
         if (trainNumber.startsWith("G") || trainNumber.startsWith("D")) {
             SeatServiceImpl.LOGGER.info("[distributeSeat][TrainNumber start][G or D]");
 
-            HttpEntity requestEntity = new HttpEntity(null);
+            HttpEntity requestEntity = HttpEntity.EMPTY;
             //Call the microservice to query for residual Ticket information: the set of the Ticket sold for the specified seat type
-            requestEntity = new HttpEntity(seatRequest, null);
+            requestEntity = new HttpEntity(seatRequest, (HttpHeaders) null);
             String order_service_url=getServiceUrl("ts-order-service");
             re3 = restTemplate.exchange(
                     order_service_url + "/api/v1/orderservice/order/tickets",
@@ -68,7 +68,7 @@ public class SeatServiceImpl implements SeatService {
         } else {
             SeatServiceImpl.LOGGER.info("[distributeSeat][TrainNumber start][Other Capital Except D and G]");
             //Call the microservice to query for residual Ticket information: the set of the Ticket sold for the specified seat type
-            HttpEntity requestEntity = new HttpEntity(seatRequest, null);
+            HttpEntity requestEntity = new HttpEntity(seatRequest, (HttpHeaders) null);
             String order_other_service_url=getServiceUrl("ts-order-other-service");
             re3 = restTemplate.exchange(
                     order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets",
@@ -139,7 +139,7 @@ public class SeatServiceImpl implements SeatService {
             SeatServiceImpl.LOGGER.info("[getLeftTicketOfInterval][TrainNumber start with G|D][trainNumber:{}]", trainNumber);
 
             //Call the micro service to query all the station information for the trains
-            HttpEntity requestEntity = new HttpEntity(seatRequest, null);
+            HttpEntity requestEntity = new HttpEntity(seatRequest, (HttpHeaders) null);
             String order_service_url=getServiceUrl("ts-order-service");
             re3 = restTemplate.exchange(
                     order_service_url + "/api/v1/orderservice/order/tickets",
@@ -153,9 +153,9 @@ public class SeatServiceImpl implements SeatService {
         } else {
             SeatServiceImpl.LOGGER.info("[getLeftTicketOfInterval][TrainNumber start with other capital][trainNumber:{}]", trainNumber);
             //Call the micro service to query all the station information for the trains
-            HttpEntity requestEntity = new HttpEntity(null);
+            HttpEntity requestEntity = HttpEntity.EMPTY;
             //Call the micro service to query for residual Ticket information: the set of the Ticket sold for the specified seat type
-            requestEntity = new HttpEntity(seatRequest, null);
+            requestEntity = new HttpEntity(seatRequest, (HttpHeaders) null);
             String order_other_service_url=getServiceUrl("ts-order-other-service");
             re3 = restTemplate.exchange(
                     order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets",
@@ -205,7 +205,7 @@ public class SeatServiceImpl implements SeatService {
     private double getDirectProportion(HttpHeaders headers) {
 
         String configName = "DirectTicketAllocationProportion";
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String config_service_url = getServiceUrl("ts-config-service");
         ResponseEntity<Response<Config>> re = restTemplate.exchange(
                 config_service_url + "/api/v1/configservice/configs/" + configName,

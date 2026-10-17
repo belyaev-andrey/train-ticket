@@ -3,11 +3,9 @@ package adminuser.service;
 import adminuser.dto.UserDto;
 import edu.fudan.common.entity.User;
 import edu.fudan.common.util.Response;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -18,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@RunWith(JUnit4.class)
 public class AdminUserServiceImplTest {
 
     @InjectMocks
@@ -30,9 +27,9 @@ public class AdminUserServiceImplTest {
     private HttpHeaders headers = new HttpHeaders();
     private HttpEntity requestEntity = new HttpEntity(headers);
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -46,7 +43,7 @@ public class AdminUserServiceImplTest {
                 new ParameterizedTypeReference<Response<List<User>>>() {
                 })).thenReturn(re);
         Response result = adminUserServiceImpl.getAllUsers(headers);
-        Assert.assertEquals(new Response<>(1, null, null), result);
+        Assertions.assertEquals(new Response<>(1, null, null), result);
     }
 
     @Test
@@ -59,7 +56,7 @@ public class AdminUserServiceImplTest {
                 requestEntity,
                 Response.class)).thenReturn(re);
         Response result = adminUserServiceImpl.deleteUser("userId", headers);
-        Assert.assertEquals(new Response<>(1, null, null), result);
+        Assertions.assertEquals(new Response<>(1, null, null), result);
     }
 
     @Test
@@ -74,7 +71,7 @@ public class AdminUserServiceImplTest {
                 requestEntity2,
                 Response.class)).thenReturn(re);
         Response result = adminUserServiceImpl.updateUser(userDto, headers);
-        Assert.assertEquals(new Response<>(1, null, null), result);
+        Assertions.assertEquals(new Response<>(1, null, null), result);
     }
 
     @Test
@@ -90,7 +87,7 @@ public class AdminUserServiceImplTest {
                 new ParameterizedTypeReference<Response<User>>() {
                 })).thenReturn(re);
         Response result = adminUserServiceImpl.addUser(userDto, headers);
-        Assert.assertEquals(new Response<>(1, null, null), result);
+        Assertions.assertEquals(new Response<>(1, null, null), result);
     }
 
 }

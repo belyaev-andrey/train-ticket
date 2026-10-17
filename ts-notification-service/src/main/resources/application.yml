@@ -3,6 +3,9 @@ server:
   port: 17853  # HTTP (Tomcat) port
 
 spring:
+  # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
+  jackson:
+    use-jackson2-defaults: true
   cloud:
     nacos:
       discovery:
@@ -24,7 +27,7 @@ spring:
             enable: true
             required: true
   datasource:
-    url: jdbc:mysql://${NOTIFICATION_MYSQL_HOST:ts-notification-mysql}:${NOTIFICATION_MYSQL_PORT:3306}/${NOTIFICATION_MYSQL_DATABASE:ts-notification-mysql}?useSSL=false
+    url: jdbc:mysql://${NOTIFICATION_MYSQL_HOST:ts-notification-mysql}:${NOTIFICATION_MYSQL_PORT:3306}/${NOTIFICATION_MYSQL_DATABASE:ts-notification-mysql}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${NOTIFICATION_MYSQL_USER:root}
     password: ${NOTIFICATION_MYSQL_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -33,7 +36,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
 
   rabbitmq:
     host: ${rabbitmq_host:localhost}

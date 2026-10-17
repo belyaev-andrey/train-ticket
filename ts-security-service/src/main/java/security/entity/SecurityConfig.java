@@ -1,13 +1,12 @@
 package security.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
 
 import java.util.UUID;
 
@@ -16,12 +15,11 @@ import java.util.UUID;
  */
 @Data
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SecurityConfig {
 
     @Id
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid
     @Column(length = 36)
     private String id;
 

@@ -228,7 +228,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
     public Response checkStationsExists(List<String> stationNames, HttpHeaders headers) {
         AdminTravelServiceImpl.LOGGER.info("[checkStationsExists][Check Stations Exists][stationNames: {}]", stationNames);
-        HttpEntity requestEntity = new HttpEntity(stationNames, null);
+        HttpEntity requestEntity = new HttpEntity(stationNames, (HttpHeaders) null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                 station_service_url + "/api/v1/stationservice/stations/idlist",
@@ -255,7 +255,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
         AdminTravelServiceImpl.LOGGER.info("[queryTrainTypeByName][Query Train Type][Train Type name: {}]", trainTypeName);
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                 train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,
@@ -269,7 +269,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
         AdminTravelServiceImpl.LOGGER.info("[getRouteByRouteId][Get Route By Id][Route ID：{}]", routeId);
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                 route_service_url + "/api/v1/routeservice/routes/" + routeId,

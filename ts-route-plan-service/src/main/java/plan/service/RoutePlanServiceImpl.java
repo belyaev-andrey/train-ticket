@@ -164,7 +164,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
         RoutePlanServiceImpl.LOGGER.info("[searchMinStopStations][Start and Finish][From Id: {} To: {}]", fromStationId , toStationId);
         //1.Get the route through the two stations
 
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String route_service_url = getServiceUrl("ts-route-service");
         ResponseEntity<Response<ArrayList<Route>>> re = restTemplate.exchange(
                 route_service_url + "/api/v1/routeservice/routes/" + info.getStartStation() + "/" + info.getEndStation(),
@@ -200,7 +200,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
             gapList.remove(minIndex);
         }
         //4.Depending on the route, go to travel-service or travel2service to get the train information
-        requestEntity = new HttpEntity(resultRoutes, null);
+        requestEntity = new HttpEntity(resultRoutes, (HttpHeaders) null);
         String travel_service_url=getServiceUrl("ts-travel-service");
         ResponseEntity<Response<ArrayList<ArrayList<Trip>>>> re2 = restTemplate.exchange(
                 travel_service_url + "/api/v1/travelservice/trips/routes",
@@ -243,7 +243,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
             allDetailInfo.setTravelDate(info.getTravelDate());
             allDetailInfo.setFrom(info.getStartStation());
             allDetailInfo.setTo(info.getEndStation());
-            requestEntity = new HttpEntity(allDetailInfo, null);
+            requestEntity = new HttpEntity(allDetailInfo, (HttpHeaders) null);
             String requestUrl = "";
             if (trip.getTripId().toString().charAt(0) == 'D' || trip.getTripId().toString().charAt(0) == 'G') {
                 requestUrl = travel_service_url + "/api/v1/travelservice/trip_detail";
@@ -284,7 +284,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String route_service_url = getServiceUrl("ts-route-service");
         ResponseEntity<Response<Route>> re = restTemplate.exchange(
                 route_service_url + "/api/v1/routeservice/routes/" + routeId,
@@ -305,7 +305,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
 
     private ArrayList<TripResponse> getTripFromHighSpeedTravelServive(TripInfo info, HttpHeaders headers) {
         RoutePlanServiceImpl.LOGGER.info("[getTripFromHighSpeedTravelServive][trip info: {}]", info);
-        HttpEntity requestEntity = new HttpEntity(info, null);
+        HttpEntity requestEntity = new HttpEntity(info, (HttpHeaders) null);
         String travel_service_url=getServiceUrl("ts-travel-service");
         ResponseEntity<Response<ArrayList<TripResponse>>> re = restTemplate.exchange(
                 travel_service_url + "/api/v1/travelservice/trips/left",
@@ -320,7 +320,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
     }
 
     private ArrayList<TripResponse> getTripFromNormalTrainTravelService(TripInfo info, HttpHeaders headers) {
-        HttpEntity requestEntity = new HttpEntity(info, null);
+        HttpEntity requestEntity = new HttpEntity(info, (HttpHeaders) null);
         String travel2_service_url=getServiceUrl("ts-travel2-service");
         ResponseEntity<Response<ArrayList<TripResponse>>> re = restTemplate.exchange(
                 travel2_service_url + "/api/v1/travel2service/trips/left",
@@ -343,7 +343,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
         } else {
             path = travel2_service_url + "/api/v1/travel2service/routes/" + tripId;
         }
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         ResponseEntity<Response<Route>> re = restTemplate.exchange(
                 path,
                 HttpMethod.GET,

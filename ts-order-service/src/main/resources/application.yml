@@ -3,6 +3,9 @@ server:
   port: 12031  # HTTP (Tomcat) port
 
 spring:
+  # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
+  jackson:
+    use-jackson2-defaults: true
   cloud:
     nacos:
       discovery:
@@ -10,7 +13,7 @@ spring:
   application:
     name: ts-order-service
   datasource:
-    url: jdbc:mysql://${ORDER_MYSQL_HOST:10.176.122.1}:${ORDER_MYSQL_PORT:3306}/${ORDER_MYSQL_DATABASE:ts}?useSSL=false
+    url: jdbc:mysql://${ORDER_MYSQL_HOST:10.176.122.1}:${ORDER_MYSQL_PORT:3306}/${ORDER_MYSQL_DATABASE:ts}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${ORDER_MYSQL_USER:root}
     password: ${ORDER_MYSQL_PASSWORD:Abcd1234#}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,7 +22,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
 
 swagger:
   controllerPackage: order.controller

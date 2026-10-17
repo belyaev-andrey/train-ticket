@@ -1,13 +1,13 @@
 package inside_payment.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 //import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
@@ -15,7 +15,6 @@ import java.util.UUID;
  */
 @Data
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 @Table(name = "inside_money")
 public class Money {
 
@@ -23,7 +22,7 @@ public class Money {
     @NotNull
     @Id
     @Column(length = 36)
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid
     private String id;
 
     @Valid

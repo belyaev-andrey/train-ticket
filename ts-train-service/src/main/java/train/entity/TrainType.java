@@ -1,24 +1,22 @@
 package train.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import lombok.Data;
 import lombok.NonNull;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 public class TrainType {
     @Id
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid
     @Column(length = 36)
     private String id;
 

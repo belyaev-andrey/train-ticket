@@ -3,6 +3,9 @@ server:
   port: 12346  # HTTP (Tomcat) port
 
 spring:
+  # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
+  jackson:
+    use-jackson2-defaults: true
   cloud:
     nacos:
       discovery:
@@ -10,7 +13,7 @@ spring:
   application:
     name: ts-travel-service
   datasource:
-    url: jdbc:mysql://${TRAVEL_MYSQL_HOST:ts-travel-mysql}:${TRAVEL_MYSQL_PORT:3306}/${TRAVEL_MYSQL_DATABASE:ts-travel-mysql}?useSSL=false
+    url: jdbc:mysql://${TRAVEL_MYSQL_HOST:ts-travel-mysql}:${TRAVEL_MYSQL_PORT:3306}/${TRAVEL_MYSQL_DATABASE:ts-travel-mysql}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${TRAVEL_MYSQL_USER:root}
     password: ${TRAVEL_MYSQL_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,7 +23,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
 
 swagger:
   controllerPackage: travel.controller

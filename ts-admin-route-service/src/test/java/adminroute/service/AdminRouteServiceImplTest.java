@@ -3,11 +3,9 @@ package adminroute.service;
 import edu.fudan.common.entity.Route;
 import edu.fudan.common.entity.RouteInfo;
 import edu.fudan.common.util.Response;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -16,7 +14,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-@RunWith(JUnit4.class)
 public class AdminRouteServiceImplTest {
 
     @InjectMocks
@@ -30,9 +27,9 @@ public class AdminRouteServiceImplTest {
     private Response response = new Response();
     private ResponseEntity<Response> re = new ResponseEntity<>(response, HttpStatus.OK);
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -43,7 +40,7 @@ public class AdminRouteServiceImplTest {
                 requestEntity,
                 Response.class)).thenReturn(re);
         Response result = adminRouteServiceImpl.getAllRoutes(headers);
-        Assert.assertEquals(new Response<>(null, null, null), result);
+        Assertions.assertEquals(new Response<>(null, null, null), result);
     }
 
     @Test
@@ -58,7 +55,7 @@ public class AdminRouteServiceImplTest {
                 new ParameterizedTypeReference<Response<Route>>() {
                 })).thenReturn(re2);
         Response result = adminRouteServiceImpl.createAndModifyRoute(request, headers);
-        Assert.assertEquals(new Response<>(null, null, null), result);
+        Assertions.assertEquals(new Response<>(null, null, null), result);
     }
 
     @Test
@@ -69,7 +66,7 @@ public class AdminRouteServiceImplTest {
                 requestEntity,
                 Response.class)).thenReturn(re);
         Response result = adminRouteServiceImpl.deleteRoute("routeId", headers);
-        Assert.assertEquals(new Response<>(null, null, null), result);
+        Assertions.assertEquals(new Response<>(null, null, null), result);
     }
 
 }

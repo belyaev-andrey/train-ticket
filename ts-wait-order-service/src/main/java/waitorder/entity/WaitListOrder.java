@@ -1,11 +1,11 @@
 package waitorder.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import edu.fudan.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,10 +13,9 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy ="uuid")
 public class WaitListOrder {
     @Id
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid(hex = true)
     @Column(length = 36)
     private String id;
 

@@ -20,7 +20,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
     </properties>
 
 
@@ -29,7 +28,7 @@
         <!--        网关相关依赖          -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -39,7 +38,8 @@
         <!--        Sentinel相关依赖          -->
         <dependency>
             <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
+            <artifactId>sentinel-spring-cloud-gateway-v6x-adapter</artifactId>
+            <version>1.8.10</version>
         </dependency>
     </dependencies>
 

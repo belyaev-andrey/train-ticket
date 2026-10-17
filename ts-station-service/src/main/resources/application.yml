@@ -1,4 +1,7 @@
 spring:
+  # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
+  jackson:
+    use-jackson2-defaults: true
   cloud:
     nacos:
       discovery:
@@ -6,7 +9,7 @@ spring:
   application:
     name: ts-station-service
   datasource:
-    url: jdbc:mysql://${STATION_MYSQL_HOST:ts-station-mysql}:${STATION_MYSQL_PORT:3306}/${STATION_MYSQL_DATABASE:ts-station-mysql}?useSSL=false
+    url: jdbc:mysql://${STATION_MYSQL_HOST:ts-station-mysql}:${STATION_MYSQL_PORT:3306}/${STATION_MYSQL_DATABASE:ts-station-mysql}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${STATION_MYSQL_USER:root}
     password: ${STATION_MYSQL_PASSWORD:Abcd1234#}
     driver-class-name: com.mysql.cj.jdbc.Driver

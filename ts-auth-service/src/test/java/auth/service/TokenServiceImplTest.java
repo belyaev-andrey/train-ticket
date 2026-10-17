@@ -7,11 +7,9 @@ import auth.repository.UserRepository;
 import auth.security.jwt.JWTProvider;
 import auth.service.impl.TokenServiceImpl;
 import edu.fudan.common.util.Response;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
-@RunWith(JUnit4.class)
 public class TokenServiceImplTest {
 
     @InjectMocks
@@ -44,9 +41,9 @@ public class TokenServiceImplTest {
     private HttpHeaders headers = new HttpHeaders();
     HttpEntity requestEntity = new HttpEntity(headers);
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -59,7 +56,7 @@ public class TokenServiceImplTest {
                 requestEntity,
                 Boolean.class)).thenReturn(re);
         Response result = tokenServiceImpl.getToken(dto, headers);
-        Assert.assertEquals(new Response<>(0, "Verification failed.", null), result);
+        Assertions.assertEquals(new Response<>(0, "Verification failed.", null), result);
     }
 
     @Test
@@ -71,7 +68,7 @@ public class TokenServiceImplTest {
         Mockito.when(userRepository.findByUsername("username")).thenReturn(optionalUser);
         Mockito.when(jwtProvider.createToken(user)).thenReturn("token");
         Response result = tokenServiceImpl.getToken(dto, headers);
-        Assert.assertEquals("login success", result.getMsg());
+        Assertions.assertEquals("login success", result.getMsg());
     }
 
 }

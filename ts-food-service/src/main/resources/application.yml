@@ -2,6 +2,9 @@ server:
   port: 18856
 
 spring:
+  # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
+  jackson:
+    use-jackson2-defaults: true
   cloud:
     nacos:
       discovery:
@@ -9,7 +12,7 @@ spring:
   application:
     name: ts-food-service
   datasource:
-    url: jdbc:mysql://${FOOD_MYSQL_HOST:ts-food-mysql}:${FOOD_MYSQL_PORT:3306}/${FOOD_MYSQL_DATABASE:ts-food-mysql}?useSSL=false
+    url: jdbc:mysql://${FOOD_MYSQL_HOST:ts-food-mysql}:${FOOD_MYSQL_PORT:3306}/${FOOD_MYSQL_DATABASE:ts-food-mysql}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${FOOD_MYSQL_USER:root}
     password: ${FOOD_MYSQL_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,7 +21,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
   rabbitmq:
     host: ${rabbitmq_host:localhost}
     port: 5672

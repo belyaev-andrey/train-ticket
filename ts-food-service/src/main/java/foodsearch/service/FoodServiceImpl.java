@@ -224,7 +224,7 @@ public class FoodServiceImpl implements FoodService {
         Map<String, List<StationFoodStore>> foodStoreListMap = new HashMap<>();
 
         /**--------------------------------------------------------------------------------------*/
-        HttpEntity requestEntityGetTrainFoodListResult = new HttpEntity(null);
+        HttpEntity requestEntityGetTrainFoodListResult = HttpEntity.EMPTY;
         String train_food_service_url = getServiceUrl("ts-train-food-service");
         ResponseEntity<Response<List<Food>>> reGetTrainFoodListResult = restTemplate.exchange(
                 train_food_service_url + "/api/v1/trainfoodservice/trainfoods/" + tripId,
@@ -246,7 +246,7 @@ public class FoodServiceImpl implements FoodService {
         }
         //车次途经的车站
         /**--------------------------------------------------------------------------------------*/
-        HttpEntity requestEntityGetRouteResult = new HttpEntity(null, null);
+        HttpEntity requestEntityGetRouteResult = new HttpEntity(null, (HttpHeaders) null);
         String travel_service_url = getServiceUrl("ts-travel-service");
         ResponseEntity<Response<Route>> reGetRouteResult = restTemplate.exchange(
                 travel_service_url + "/api/v1/travelservice/routes/" + tripId,
@@ -281,7 +281,7 @@ public class FoodServiceImpl implements FoodService {
                 }
             }
 
-            HttpEntity requestEntityFoodStoresListResult = new HttpEntity(stations, null);
+            HttpEntity requestEntityFoodStoresListResult = new HttpEntity(stations, (HttpHeaders) null);
             String station_food_service_url = getServiceUrl("ts-station-food-service");
             ResponseEntity<Response<List<StationFoodStore>>> reFoodStoresListResult = restTemplate.exchange(
                      station_food_service_url + "/api/v1/stationfoodservice/stationfoodstores",

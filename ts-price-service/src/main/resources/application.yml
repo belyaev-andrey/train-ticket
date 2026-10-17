@@ -1,4 +1,7 @@
 spring:
+  # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
+  jackson:
+    use-jackson2-defaults: true
   cloud:
     nacos:
       discovery:
@@ -6,7 +9,7 @@ spring:
   application:
     name: ts-price-service
   datasource:
-    url: jdbc:mysql://${PRICE_MYSQL_HOST:10.176.122.1}:${PRICE_MYSQL_PORT:3306}/${PRICE_MYSQL_DATABASE:ts}?useSSL=false
+    url: jdbc:mysql://${PRICE_MYSQL_HOST:10.176.122.1}:${PRICE_MYSQL_PORT:3306}/${PRICE_MYSQL_DATABASE:ts}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${PRICE_MYSQL_USER:root}
     password: ${PRICE_MYSQL_PASSWORD:Abcd1234#}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,7 +18,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
 
 
 # HTTP Server

@@ -4,17 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 
 
-import javax.persistence.Entity;
-import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.Entity;
 import java.util.UUID;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 /**
  * @author fdse
@@ -22,7 +21,6 @@ import javax.persistence.Entity;
 @Data
 @AllArgsConstructor
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NotifyInfo {
 

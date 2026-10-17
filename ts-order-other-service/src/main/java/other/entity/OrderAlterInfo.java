@@ -1,11 +1,10 @@
 package other.entity;
 
+import edu.fudan.common.entity.AssignableUuid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
+import jakarta.persistence.Column;
 import java.util.UUID;
 
 /**
@@ -13,14 +12,13 @@ import java.util.UUID;
  */
 @Data
 @AllArgsConstructor
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 public class OrderAlterInfo {
 
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid
     @Column(length = 36)
     private String accountId;
 
-    @GeneratedValue(generator = "jpa-uuid")
+    @AssignableUuid
     @Column(length = 36)
     private String previousOrderId;
 

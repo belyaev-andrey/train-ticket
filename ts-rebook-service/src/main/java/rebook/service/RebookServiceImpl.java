@@ -7,7 +7,6 @@ import edu.fudan.common.entity.TripResponse;
 import edu.fudan.common.util.JsonUtils;
 import edu.fudan.common.util.Response;
 import edu.fudan.common.util.StringUtils;
-import org.apache.tomcat.jni.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -402,7 +401,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                 train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,
@@ -415,7 +414,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
-        HttpEntity requestEntity = new HttpEntity(null);
+        HttpEntity requestEntity = HttpEntity.EMPTY;
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
                 route_service_url + "/api/v1/routeservice/routes/" + routeId,
@@ -467,7 +466,7 @@ public class RebookServiceImpl implements RebookService {
 
     public static HttpHeaders getAuthorizationHeadersFrom(HttpHeaders oldHeaders) {
         HttpHeaders newHeaders = new HttpHeaders();
-        if (oldHeaders.containsKey(HttpHeaders.AUTHORIZATION)) {
+        if (oldHeaders.containsHeader(HttpHeaders.AUTHORIZATION)) {
             newHeaders.add(HttpHeaders.AUTHORIZATION, oldHeaders.getFirst(HttpHeaders.AUTHORIZATION));
         }
         return newHeaders;
