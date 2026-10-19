@@ -3,6 +3,8 @@ server:
   port: 12031  # HTTP (Tomcat) port
 
 spring:
+  profiles:
+    active: dev
   # Jackson 3 keeps the Jackson 2 defaults the services and their clients were written for.
   jackson:
     use-jackson2-defaults: true
